@@ -2,6 +2,7 @@ package com.example.manager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -20,7 +21,7 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText edtUserName, edtPassword;
     Gson gson = new Gson();
-
+    AlertDialog alert;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,12 +32,19 @@ public class LoginActivity extends AppCompatActivity {
     private void addControls() {
         edtUserName = findViewById(R.id.edtUserName);
         edtPassword = findViewById(R.id.edtPassword);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(getLayoutInflater().inflate(R.layout.layout_loading_dialog, null));
+        builder.setCancelable(false);
+        alert = builder.create();
     }
 
     public void login(View view) {
+        alert.show();
+
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
         if ((userName == null || userName.equals("")) || (password == null || password.equals(""))) {
+//            alert.dismiss();
             Toast.makeText(this, R.string.login_missing_value, Toast.LENGTH_SHORT).show();
         } else {
             password = AESCrypt.encrypt(password);
@@ -53,14 +61,19 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             if (result.equals("Success")) {
+//                alert.dismiss();
                 Toast.makeText(this, R.string.success, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
             } else if (result == null) {
+//                alert.dismiss();
                 Toast.makeText(this, R.string.error, Toast.LENGTH_SHORT).show();
             } else {
+//                alert.dismiss();
                 Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
             }
+
+            alert.dismiss();
         }
     }
 }
