@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.R;
 import com.example.model.Account;
 import com.example.service.RestService;
 import com.example.util.AESCrypt;
