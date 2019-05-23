@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         String userName = edtUserName.getText().toString();
         String password = edtPassword.getText().toString();
         if ((userName == null || userName.equals("")) || (password == null || password.equals(""))) {
-//            alert.dismiss();
+            alert.dismiss();
             Toast.makeText(this, R.string.login_missing_value, Toast.LENGTH_SHORT).show();
         } else {
             password = AESCrypt.encrypt(password);
